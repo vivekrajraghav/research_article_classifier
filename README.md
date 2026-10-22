@@ -27,7 +27,7 @@ Multiple machine learning classifiers were trained and compared using 5-Fold Cro
 
 ### Model Comparison (Evaluation Metrics)
 
-| Classifier | Accuracy | Precision (Macro) | Recall (Macro) | F1-Score (Macro) |
+| Classifier | Accuracy | Precision | Recall  | F1-Score |
 | :--- | :--- | :--- | :--- | :--- |
 | **Support Vector Machine (LinearSVC)** | **92.37%** | **0.93** | **0.92** | **0.92** |
 | Logistic Regression | 92.12% | 0.92 | 0.92 | 0.92 |
@@ -61,7 +61,7 @@ Bar charts of the top TF-IDF feature weights were extracted for each class to vi
 - `README.md`: Project documentation and summary.
 
 ## How to Run the Demo
-### For Demo run click here: [Research Article Classifier](https://research-article-classifier.streamlit.app/)
+### For Demo run click here: [[Research Article Classifier]](https://research-article-classifier.streamlit.app/)
 
 To run locally:
 1. Ensure Python 3.8+ is installed.
