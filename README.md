@@ -65,12 +65,16 @@ Bar charts of the top TF-IDF feature weights were extracted for each class to vi
 
 To run locally:
 1. Ensure Python 3.8+ is installed.
-2. Install the required dependencies:
+2. Clone the Repo
    ```bash
-   pip install pandas scikit-learn nltk streamlit joblib
+   git clone https://github.com/vivekrajraghav/research_article_classifier
    ```
-3. Run the Streamlit application:
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the Streamlit application:
    ```bash
    streamlit run app.py
    ```
-4. A browser window will open automatically. Paste your abstract into the text box and click "Classify" to see the model's prediction.
+5. A browser window will open automatically. Paste your abstract into the text box and click "Classify" to see the model's prediction.
