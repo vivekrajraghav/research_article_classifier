@@ -42,14 +42,16 @@ The **LinearSVC** model (with C=0.1) was selected as the final production model 
 
 **1. Learning Curves (Bias-Variance Tradeoff)**
 Learning curve visualizations were plotted across 5 folds to evaluate the optimal model. For the final `LinearSVC` model, the training accuracy (~95.5%) and cross-validation accuracy (~91.1%) converged smoothly. The flat trajectory at the upper limit of the training size proved the model successfully bypassed the Curse of Dimensionality and reached its maximum learning capacity without overfitting.
+![Learning Curve](image-1.png)
 
-**2. Filter Visualizations (Feature Importance)**
+**2. Confusion Matrix Analysis**
+A heat-mapped Confusion Matrix was generated on the hold-out test set to interpret misclassifications. The matrix revealed high true-positive accuracy across all three balanced classes. The minor off-diagonal errors (~8%) were heavily concentrated in interdisciplinary abstracts, representing the natural semantic noise threshold between intersecting research domains rather than an algorithmic failure.
+![Confusion Matrix(SVM)](image.png)
+
+**3. Filter Visualizations (Feature Importance)**
 Bar charts of the top TF-IDF feature weights were extracted for each class to visualize what the model was actually learning. This filter visualization was critical for auditing the pipeline:
 * *Target Leakage Discovery:* Early visualizations revealed the model was cheating by heavily weighting category labels (e.g., "economics", "sociology").
 * *Semantic Isolation:* After aggressively expanding the stop-words list to filter out these leaks and publisher artifacts, the final visualizations proved the model was correctly drawing boundaries based on pure domain concepts (e.g., "microeconomics", "finance" for Business; "biology", "physics" for Science).
-
-**3. Confusion Matrix Analysis**
-A heat-mapped Confusion Matrix was generated on the hold-out test set to interpret misclassifications. The matrix revealed high true-positive accuracy across all three balanced classes. The minor off-diagonal errors (~8%) were heavily concentrated in interdisciplinary abstracts (e.g., "economic impacts of biopharmaceutical manufacturing" or "societal effects of climate physics"), representing the natural semantic noise threshold between intersecting research domains rather than an algorithmic failure.
 
 ## Project Structure & Deliverables
 - `NLP_project_research_article_classifier.ipynb`: The main runnable Jupyter/Colab notebook containing all data preprocessing, model training, evaluation metrics, and visualization code.
