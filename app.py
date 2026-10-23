@@ -7,6 +7,7 @@ import nltk
 from nltk.corpus import wordnet, stopwords
 from nltk.stem import WordNetLemmatizer
 import io
+import os
 @st.cache_resource
 def download_nltk_data():
     nltk.download('stopwords', quiet=True)
@@ -94,9 +95,9 @@ elif app_mode == "Batch Prediction":
     st.header("Batch Prediction via Excel")
     st.write("Upload an Excel file containing a column named `Abstract`.")
     uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx", "xls"])
-
     if uploaded_file is not None:
         try:
+            base_name = os.path.splitext(uploaded_file.name)[0]
             df = pd.read_excel(uploaded_file)
             if "Abstract" not in df.columns:
                 st.error("The uploaded Excel file must contain an 'Abstract' column.")
@@ -130,7 +131,7 @@ elif app_mode == "Batch Prediction":
                         st.download_button(
                             label="Download Predictions as Excel",
                             data=processed_data,
-                            file_name=f"{uploaded_file}_predictions.xlsx",
+                            file_name=f"{base_name}_predictions.xlsx",
                             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         )
         except Exception as e:
