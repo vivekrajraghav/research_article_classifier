@@ -130,7 +130,7 @@ elif app_mode == "Batch Prediction":
                         st.download_button(
                             label="Download Predictions as Excel",
                             data=processed_data,
-                            file_name="abstract_predictions.xlsx",
+                            file_name=f"{uploaded_file}_predictions.xlsx",
                             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         )
         except Exception as e:
