@@ -90,17 +90,24 @@ if app_mode == "Single Abstract":
                     st.info(f"**Original Text Analyzed:**\n\n{abstract_input}") # Optional: shows what was submitted since the box clears
         else:
             st.warning("Please enter an abstract to classify.")
-
 elif app_mode == "Batch Prediction":
-    st.header("Batch Prediction via Excel")
-    st.write("Upload an Excel file containing a column named `Abstract`.")
-    uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx", "xls"])
+    st.header("Batch Prediction via CSV or Excel")
+    st.write("Upload a CSV or Excel file containing a column named `Abstract`.")
+    uploaded_file = st.file_uploader("Upload File", type=["xlsx", "xls", "csv"])
+    
     if uploaded_file is not None:
         try:
             base_name = os.path.splitext(uploaded_file.name)[0]
-            df = pd.read_excel(uploaded_file)
+            file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+            
+            # Read file based on extension
+            if file_extension == '.csv':
+                df = pd.read_csv(uploaded_file)
+            else:
+                df = pd.read_excel(uploaded_file)
+                
             if "Abstract" not in df.columns:
-                st.error("The uploaded Excel file must contain an 'Abstract' column.")
+                st.error("The uploaded file must contain an 'Abstract' column.")
             else:
                 with st.spinner(f"Processing {len(df)} rows..."):
                     # Preprocess text
@@ -122,17 +129,14 @@ elif app_mode == "Batch Prediction":
                         st.success(f"Batch prediction completed! {len(df_output)} valid abstracts classified.")
                         st.dataframe(df_output.head())
                         
-                        # Convert DataFrame to an Excel file in memory
-                        output = io.BytesIO()
-                        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-                            df_output.to_excel(writer, index=False, sheet_name='Predictions')
-                        processed_data = output.getvalue()
+                        # Convert DataFrame to CSV in memory for download
+                        csv_data = df_output.to_csv(index=False).encode('utf-8')
                         
                         st.download_button(
-                            label="Download Predictions as Excel",
-                            data=processed_data,
-                            file_name=f"{base_name}_predictions.xlsx",
-                            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            label="Download Predictions",
+                            data=csv_data,
+                            file_name=f"{base_name}_predictions.csv",
+                            mime="text/csv"
                         )
         except Exception as e:
             st.error(f"An error occurred while processing the file: {e}")
